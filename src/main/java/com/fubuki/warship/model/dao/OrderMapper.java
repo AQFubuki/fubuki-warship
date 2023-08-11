@@ -1,7 +1,9 @@
 package com.fubuki.warship.model.dao;
 
 import com.fubuki.warship.model.pojo.Order;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface OrderMapper {
     int deleteByPrimaryKey(Long id);
 

@@ -1,7 +1,9 @@
 package com.fubuki.warship.model.dao;
 
 import com.fubuki.warship.model.pojo.User;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);
 

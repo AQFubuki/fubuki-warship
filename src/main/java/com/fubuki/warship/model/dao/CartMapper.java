@@ -1,7 +1,9 @@
 package com.fubuki.warship.model.dao;
 
 import com.fubuki.warship.model.pojo.Cart;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CartMapper {
     int deleteByPrimaryKey(Long id);
 

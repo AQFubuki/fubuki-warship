@@ -1,7 +1,9 @@
 package com.fubuki.warship.model.dao;
 
 import com.fubuki.warship.model.pojo.Product;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ProductMapper {
     int deleteByPrimaryKey(Long id);
 
