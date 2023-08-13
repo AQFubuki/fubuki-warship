@@ -9,8 +9,10 @@ import com.fubuki.warship.model.request.AddCategoryReq;
 import com.fubuki.warship.service.CategoryService;
 import com.fubuki.warship.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,12 +31,12 @@ public class CategoryController {
     @PostMapping("/admin/category/add")
     @ResponseBody
     public ApiRestResponse addCategory(HttpSession session,
-                                       @RequestBody AddCategoryReq addCategoryReq)
+                                      @Valid @RequestBody AddCategoryReq addCategoryReq)
             throws WarshipException {
-        if (addCategoryReq.getName() == null || addCategoryReq.getType() == null
-                || addCategoryReq.getParentId() == null || addCategoryReq.getOrderNum() == null) {
-            return ApiRestResponse.error(WarshipExceptionEnum.PARA_NOT_NULL);
-        }
+//        if (addCategoryReq.getName() == null || addCategoryReq.getType() == null
+//                || addCategoryReq.getParentId() == null || addCategoryReq.getOrderNum() == null) {
+//            return ApiRestResponse.error(WarshipExceptionEnum.PARA_NOT_NULL);
+//        }
         User currentUser = (User) session.getAttribute(Constant.FUBUKI_WARSHIP_USER);
         //检查是否登录
         if (currentUser == null) {
