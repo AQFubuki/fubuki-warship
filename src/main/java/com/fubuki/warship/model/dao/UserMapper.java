@@ -1,6 +1,7 @@
 package com.fubuki.warship.model.dao;
 
 import com.fubuki.warship.model.pojo.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -16,4 +17,9 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User row);
 
     int updateByPrimaryKey(User row);
+
+    User selectByName(String userName);
+
+    User selectLogin(@Param("userName") String userName
+            , @Param("password") String password);
 }
