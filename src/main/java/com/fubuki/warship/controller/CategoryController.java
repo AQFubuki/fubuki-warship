@@ -8,6 +8,8 @@ import com.fubuki.warship.model.pojo.User;
 import com.fubuki.warship.model.request.AddCategoryReq;
 import com.fubuki.warship.service.CategoryService;
 import com.fubuki.warship.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,15 @@ public class CategoryController {
         this.userService = userService;
     }
 
+    /**
+     * 后台添加目录
+     * @param session 验证用户信息（仅限管理员使用）
+     * @param addCategoryReq Category的新增信息类
+     * @return 处理结果
+     * @throws WarshipException
+     */
+//    @ApiOperation("后台添加目录")
+    @Operation(summary = "后台添加目录")
     @PostMapping("/admin/category/add")
     @ResponseBody
     public ApiRestResponse addCategory(HttpSession session,
