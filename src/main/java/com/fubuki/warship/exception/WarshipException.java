@@ -3,7 +3,7 @@ package com.fubuki.warship.exception;
 /**
  * 描述：     统一异常
  */
-public class WarshipException extends Exception {
+public class WarshipException extends RuntimeException {
 
     private final Integer code;
     private final String message;
