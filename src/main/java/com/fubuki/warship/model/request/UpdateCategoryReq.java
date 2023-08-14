@@ -1,21 +1,26 @@
-package com.fubuki.warship.model.pojo;
+package com.fubuki.warship.model.request;
 
-import java.util.Date;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-public class Category {
+/**
+ * 描述：     AddCategoryReq
+ */
+public class UpdateCategoryReq {
+
+    @NotNull(message = "id不能为null")
     private Long id;
 
+    @Size(min = 2, max = 5)
     private String name;
 
+    @Max(3)
     private Integer type;
 
     private Integer parentId;
 
     private Integer orderNum;
-
-    private Date createTime;
-
-    private Date updateTime;
 
     public Long getId() {
         return id;
@@ -30,7 +35,7 @@ public class Category {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public Integer getType() {
@@ -57,32 +62,14 @@ public class Category {
         this.orderNum = orderNum;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
     @Override
     public String toString() {
-        return "Category{" +
+        return "UpdateCategoryReq{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type=" + type +
                 ", parentId=" + parentId +
                 ", orderNum=" + orderNum +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
                 '}';
     }
 }

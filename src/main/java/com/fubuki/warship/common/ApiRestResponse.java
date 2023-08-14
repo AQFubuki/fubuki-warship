@@ -7,15 +7,11 @@ import com.fubuki.warship.exception.WarshipExceptionEnum;
  */
 public class ApiRestResponse<T> {
 
-    private Integer status;
-
-    private String msg;
-
-    private T data;
-
     private static final int OK_CODE = 10000;
-
     private static final String OK_MSG = "SUCCESS";
+    private Integer status;
+    private String msg;
+    private T data;
 
     public ApiRestResponse(Integer status, String msg, T data) {
         this.status = status;
@@ -50,6 +46,14 @@ public class ApiRestResponse<T> {
         return new ApiRestResponse<>(ex.getCode(), ex.getMsg());
     }
 
+    public static int getOkCode() {
+        return OK_CODE;
+    }
+
+    public static String getOkMsg() {
+        return OK_MSG;
+    }
+
     @Override
     public String toString() {
         return "ApiRestResponse{" +
@@ -81,13 +85,5 @@ public class ApiRestResponse<T> {
 
     public void setData(T data) {
         this.data = data;
-    }
-
-    public static int getOkCode() {
-        return OK_CODE;
-    }
-
-    public static String getOkMsg() {
-        return OK_MSG;
     }
 }

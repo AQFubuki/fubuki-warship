@@ -2,8 +2,6 @@ package com.fubuki.warship.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Arrays;
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -15,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.Arrays;
 
 /**
  * 描述：     打印请求和响应信息
@@ -35,14 +35,14 @@ public class WebLogAspect {
         //分析并打印请求内容
         ServletRequestAttributes attributes =
                 (ServletRequestAttributes) RequestContextHolder
-                .getRequestAttributes();
+                        .getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
         log.info("request url:" + request.getRequestURL().toString());
         log.info("request method:" + request.getMethod());
-        log.info("ip : "+request.getRemoteAddr());
-        log.info("class method : "+joinPoint.getSignature().getDeclaringTypeName()+"."
-        +joinPoint.getSignature().getName());
+        log.info("ip : " + request.getRemoteAddr());
+        log.info("class method : " + joinPoint.getSignature().getDeclaringTypeName() + "."
+                + joinPoint.getSignature().getName());
         log.info("args : " + Arrays.toString(joinPoint.getArgs()));
     }
 

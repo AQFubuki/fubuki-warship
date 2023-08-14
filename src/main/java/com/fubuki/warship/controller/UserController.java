@@ -23,6 +23,7 @@ public class UserController {
 
 
     private final UserService userService;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -72,9 +73,10 @@ public class UserController {
         User user = userService.login(userName, password);
         //保存用户信息时不返回密码
         user.setPassword(null);
-        session.setAttribute(Constant.FUBUKI_WARSHIP_USER,user);
+        session.setAttribute(Constant.FUBUKI_WARSHIP_USER, user);
         return ApiRestResponse.success(user);
     }
+
     /**
      * 更新个性签名
      */
@@ -105,8 +107,8 @@ public class UserController {
     @PostMapping("/adminLogin")
     @ResponseBody
     public ApiRestResponse adminLogin(@RequestParam("userName") String userName,
-                                 @RequestParam("password") String password,
-                                 HttpSession session)
+                                      @RequestParam("password") String password,
+                                      HttpSession session)
             throws WarshipException {
         if (StringUtils.isEmpty(userName)) {
             return ApiRestResponse.error(WarshipExceptionEnum.NEED_USER_NAME);
@@ -117,9 +119,9 @@ public class UserController {
         User user = userService.login(userName, password);
         user.setPassword(null);
         if (userService.checkAdminRole(user)) {
-            session.setAttribute(Constant.FUBUKI_WARSHIP_USER,user);
+            session.setAttribute(Constant.FUBUKI_WARSHIP_USER, user);
             return ApiRestResponse.success(user);
-        }else{
+        } else {
             return ApiRestResponse.error(WarshipExceptionEnum.NEED_ADMIN);
         }
     }
