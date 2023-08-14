@@ -85,4 +85,11 @@ public class CategoryController {
             return ApiRestResponse.error(WarshipExceptionEnum.NEED_ADMIN);
         }
     }
+
+    @Operation(summary = "后台删除目录")
+    @PostMapping("admin/category/delete")
+    @ResponseBody
+    public ApiRestResponse deleteCategory(){
+        return null;
+    }
 }
