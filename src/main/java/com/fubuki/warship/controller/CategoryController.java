@@ -8,8 +8,10 @@ import com.fubuki.warship.model.pojo.Category;
 import com.fubuki.warship.model.pojo.User;
 import com.fubuki.warship.model.request.AddCategoryReq;
 import com.fubuki.warship.model.request.UpdateCategoryReq;
+import com.fubuki.warship.model.vo.CategoryVO;
 import com.fubuki.warship.service.CategoryService;
 import com.fubuki.warship.service.UserService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -18,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 //@Api(tags = "商品目录模块")
 @Controller
@@ -89,7 +94,26 @@ public class CategoryController {
     @Operation(summary = "后台删除目录")
     @PostMapping("admin/category/delete")
     @ResponseBody
-    public ApiRestResponse deleteCategory(){
-        return null;
+    public ApiRestResponse deleteCategory(@RequestParam Long id){
+        categoryService.delete(id);
+        return ApiRestResponse.success();
+    }
+
+    @Operation(summary = "后台目录列表")
+    @PostMapping("admin/category/list")
+    @ResponseBody
+    public ApiRestResponse listCategoryForAdmin(@RequestParam Integer pageNum
+            , @RequestParam Integer pageSize) {
+        PageInfo pageInfo = categoryService.listForAdmin(pageNum, pageSize);
+        return ApiRestResponse.success(pageInfo);
+    }
+
+    @Operation(summary = "前台目录列表")
+    @PostMapping("category/list")
+    @ResponseBody
+    public ApiRestResponse listCategoryForCustomer() {
+        List<CategoryVO> categoryVOS = categoryService.listCategoryForCustomer();
+        return ApiRestResponse.success(categoryVOS);
+
     }
 }

@@ -12,13 +12,13 @@ public class UpdateCategoryReq {
     @NotNull(message = "id不能为null")
     private Long id;
 
-    @Size(min = 2, max = 5)
+    @Size(min = 2, max = 12)
     private String name;
 
     @Max(3)
     private Integer type;
 
-    private Integer parentId;
+    private Long parentId;
 
     private Integer orderNum;
 
@@ -46,11 +46,11 @@ public class UpdateCategoryReq {
         this.type = type;
     }
 
-    public Integer getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

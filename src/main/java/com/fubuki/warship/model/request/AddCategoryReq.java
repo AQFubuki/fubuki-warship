@@ -14,7 +14,7 @@ public class AddCategoryReq {
     @Min(1)
     private Integer type;
     @NotNull(message = "parentId不能为null")
-    private Integer parentId;
+    private Long parentId;
     @NotNull(message = "orderNum不能为null")
     private Integer orderNum;
 
@@ -34,11 +34,11 @@ public class AddCategoryReq {
         this.type = type;
     }
 
-    public Integer getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

@@ -11,7 +11,7 @@ public class Product {
 
     private String detail;
 
-    private Integer categoryId;
+    private Long categoryId;
 
     private Integer price;
 
@@ -55,11 +55,11 @@ public class Product {
         this.detail = detail == null ? null : detail.trim();
     }
 
-    public Integer getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 

@@ -1,8 +1,12 @@
-package com.fubuki.warship.model.pojo;
+package com.fubuki.warship.model.vo;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+//启用缓存的实体类必须要序列化implements Serializable
+public class CategoryVO implements Serializable {
 
-public class Category {
     private Long id;
 
     private String name;
@@ -16,6 +20,16 @@ public class Category {
     private Date createTime;
 
     private Date updateTime;
+
+    private List<CategoryVO> childCategory = new ArrayList<>();
+
+    public List<CategoryVO> getChildCategory() {
+        return childCategory;
+    }
+
+    public void setChildCategory(List<CategoryVO> childCategory) {
+        this.childCategory = childCategory;
+    }
 
     public Long getId() {
         return id;
@@ -71,18 +85,5 @@ public class Category {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", parentId=" + parentId +
-                ", orderNum=" + orderNum +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
     }
 }

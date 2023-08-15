@@ -6,7 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
-    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
     <result column="price" jdbcType="INTEGER" property="price" />
     <result column="stock" jdbcType="INTEGER" property="stock" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -32,7 +32,7 @@
       stock, `status`, create_time, 
       update_time)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, 
-      #{detail,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, 
+      #{detail,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, #{price,jdbcType=INTEGER},
       #{stock,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -84,7 +84,7 @@
         #{detail,jdbcType=VARCHAR},
       </if>
       <if test="categoryId != null">
-        #{categoryId,jdbcType=INTEGER},
+        #{categoryId,jdbcType=BIGINT},
       </if>
       <if test="price != null">
         #{price,jdbcType=INTEGER},
@@ -116,7 +116,7 @@
         detail = #{detail,jdbcType=VARCHAR},
       </if>
       <if test="categoryId != null">
-        category_id = #{categoryId,jdbcType=INTEGER},
+        category_id = #{categoryId,jdbcType=BIGINT},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=INTEGER},
@@ -141,7 +141,7 @@
     set `name` = #{name,jdbcType=VARCHAR},
       image = #{image,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=VARCHAR},
-      category_id = #{categoryId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=BIGINT},
       price = #{price,jdbcType=INTEGER},
       stock = #{stock,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
