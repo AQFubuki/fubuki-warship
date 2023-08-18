@@ -7,7 +7,7 @@
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
     <result column="category_id" jdbcType="BIGINT" property="categoryId" />
-    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="price" jdbcType="BIGINT" property="price" />
     <result column="stock" jdbcType="INTEGER" property="stock" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -32,7 +32,7 @@
       stock, `status`, create_time, 
       update_time)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, 
-      #{detail,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, #{price,jdbcType=INTEGER},
+      #{detail,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, #{price,jdbcType=BIGINT},
       #{stock,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -87,7 +87,7 @@
         #{categoryId,jdbcType=BIGINT},
       </if>
       <if test="price != null">
-        #{price,jdbcType=INTEGER},
+        #{price,jdbcType=BIGINT},
       </if>
       <if test="stock != null">
         #{stock,jdbcType=INTEGER},
@@ -119,7 +119,7 @@
         category_id = #{categoryId,jdbcType=BIGINT},
       </if>
       <if test="price != null">
-        price = #{price,jdbcType=INTEGER},
+        price = #{price,jdbcType=BIGINT},
       </if>
       <if test="stock != null">
         stock = #{stock,jdbcType=INTEGER},
@@ -142,11 +142,25 @@
       image = #{image,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=BIGINT},
-      price = #{price,jdbcType=INTEGER},
+      price = #{price,jdbcType=BIGINT},
       stock = #{stock,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fubuki_warship_product
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <update id="batchUpdateSellStatus">
+    update fubuki_warship_product
+    set status=#{sellStatus}
+    where id in
+    <foreach collection="ids" close=")" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
   </update>
 </mapper>

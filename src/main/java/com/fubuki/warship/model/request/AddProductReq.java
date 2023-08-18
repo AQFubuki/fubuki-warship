@@ -1,34 +1,39 @@
-package com.fubuki.warship.model.pojo;
+package com.fubuki.warship.model.request;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
-public class Product {
-    private Long id;
-
+public class AddProductReq {
+    @NotNull(message = "商品名称不能为null")
     private String name;
 
+    @NotNull(message = "商品图片不能为null")
     private String image;
 
     private String detail;
 
+    @NotNull(message = "商品分类不能为null")
     private Long categoryId;
 
+    @NotNull(message = "商品价格不能为null")
+    @Min(value = 1, message = "价格不能小于1分")
     private Long price;
 
+    @NotNull(message = "商品库存不能为null")
+    @Max(value = 10000, message = "库存不能大于10000")
     private Integer stock;
 
     private Integer status;
 
-    private Date createTime;
-
-    private Date updateTime;
-
-    public Long getId() {
-        return id;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getName() {
@@ -36,7 +41,7 @@ public class Product {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getImage() {
@@ -44,7 +49,7 @@ public class Product {
     }
 
     public void setImage(String image) {
-        this.image = image == null ? null : image.trim();
+        this.image = image;
     }
 
     public String getDetail() {
@@ -52,7 +57,7 @@ public class Product {
     }
 
     public void setDetail(String detail) {
-        this.detail = detail == null ? null : detail.trim();
+        this.detail = detail;
     }
 
     public Long getCategoryId() {
@@ -77,29 +82,5 @@ public class Product {
 
     public void setStock(Integer stock) {
         this.stock = stock;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 }

@@ -1,27 +1,20 @@
-package com.fubuki.warship.model.pojo;
+package com.fubuki.warship.model.request;
 
-import java.util.Date;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
-public class Product {
+public class UpdateProductReq {
+    @NotNull(message = "商品id不能为null")
     private Long id;
-
     private String name;
-
     private String image;
-
     private String detail;
-
     private Long categoryId;
-
+    @Min(value = 1, message = "价格不能小于1分")
     private Long price;
-
+    @Max(value = 10000, message = "库存不能大于10000")
     private Integer stock;
-
-    private Integer status;
-
-    private Date createTime;
-
-    private Date updateTime;
 
     public Long getId() {
         return id;
@@ -36,7 +29,7 @@ public class Product {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getImage() {
@@ -44,7 +37,7 @@ public class Product {
     }
 
     public void setImage(String image) {
-        this.image = image == null ? null : image.trim();
+        this.image = image;
     }
 
     public String getDetail() {
@@ -52,7 +45,7 @@ public class Product {
     }
 
     public void setDetail(String detail) {
-        this.detail = detail == null ? null : detail.trim();
+        this.detail = detail;
     }
 
     public Long getCategoryId() {
@@ -77,29 +70,5 @@ public class Product {
 
     public void setStock(Integer stock) {
         this.stock = stock;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 }
