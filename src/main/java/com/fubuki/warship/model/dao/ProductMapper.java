@@ -1,8 +1,12 @@
 package com.fubuki.warship.model.dao;
 
+import com.fubuki.warship.model.pojo.Category;
 import com.fubuki.warship.model.pojo.Product;
+import com.fubuki.warship.model.query.ProductListQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ProductMapper {
@@ -22,4 +26,8 @@ public interface ProductMapper {
 
     int batchUpdateSellStatus(@Param("ids") Long[] ids
             , @Param("sellStatus") Integer sellStatus);
+
+    List<Category> selectListForAdmin();
+
+    List<Product> selectList(@Param("query")ProductListQuery productListQuery);
 }

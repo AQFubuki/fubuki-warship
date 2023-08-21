@@ -12,12 +12,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -76,7 +74,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public PageInfo listForAdmin(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize, "type, parentId, order_num, id");
+        PageHelper.startPage(pageNum, pageSize, "type, parent_id, order_num, id");
         List<Category> categoryList = categoryMapper.selectList();
         PageInfo pageInfo = new PageInfo(categoryList);
         return pageInfo;
@@ -84,9 +82,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     //@Cacheable(value = "listCategoryForCustomer")
-    public List<CategoryVO> listCategoryForCustomer() {
+    public List<CategoryVO> listCategoryForCustomer(Long parentId) {
         ArrayList<CategoryVO> categoryVOList = new ArrayList<>();
-        recursivelyFindCategories(categoryVOList, 0l);
+        recursivelyFindCategories(categoryVOList, parentId);
         return categoryVOList;
     }
 

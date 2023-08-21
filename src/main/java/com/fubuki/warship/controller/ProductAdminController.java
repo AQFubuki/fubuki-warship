@@ -8,6 +8,7 @@ import com.fubuki.warship.model.request.AddProductReq;
 import com.fubuki.warship.model.request.UpdateProductReq;
 import com.fubuki.warship.service.ProductService;
 import com.fubuki.warship.service.UserService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -116,5 +117,14 @@ public class ProductAdminController {
                                                  @RequestParam Integer sellStatus) {
         productService.batchUpdateSellStatus(ids, sellStatus);
         return ApiRestResponse.success();
+    }
+
+    @Operation(summary = "后台商品列表接口")
+    @GetMapping("/admin/product/list")
+    @ResponseBody
+    public ApiRestResponse listProductForAdmin(@RequestParam Integer pageNum
+            , @RequestParam Integer pageSize) {
+        PageInfo pageInfo = productService.listForAdmin(pageNum, pageSize);
+        return ApiRestResponse.success(pageInfo);
     }
 }
