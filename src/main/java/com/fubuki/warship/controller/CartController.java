@@ -33,4 +33,17 @@ public class CartController {
         List<CartVO> cartVOList = cartService.add(UserFilter.currentUser.getId(), productId, count);
         return ApiRestResponse.success(cartVOList);
     }
+    @PostMapping("/update")
+    @Operation(summary = "更新商品数量")
+    public ApiRestResponse update(@RequestParam Long productId
+            , @RequestParam Integer count) {
+        List<CartVO> cartVOList = cartService.update(UserFilter.currentUser.getId(), productId, count);
+        return ApiRestResponse.success(cartVOList);
+    }
+    @PostMapping("/delete")
+    @Operation(summary = "删除购物车商品")
+    public ApiRestResponse delete(@RequestParam Long productId) {
+        List<CartVO> cartVOList = cartService.delete(UserFilter.currentUser.getId(), productId);
+        return ApiRestResponse.success(cartVOList);
+    }
 }

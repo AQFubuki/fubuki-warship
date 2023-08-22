@@ -77,6 +77,41 @@ public class CartServiceImpl implements CartService {
         return this.list(userId);
     }
 
+    @Override
+    public List<CartVO> update(Long userId, Long productId, Integer count) {
+        validProduct(productId, count);
+
+        Cart cart = cartMapper.selectCartByUserIdAndProductId(userId, productId);
+        if (cart == null) {
+            //这个商品之前不在购物车里，更新失败
+            throw new WarshipException(WarshipExceptionEnum.UPDATE_FAILED);
+        } else {
+            //这个商品已经在购物车里了，则更改数量
+            Cart cartNew = new Cart();
+            cartNew.setQuantity(count);
+            cartNew.setId(cart.getId());
+            cartNew.setProductId(cart.getProductId());
+            cartNew.setUserId(cart.getUserId());
+
+            cartMapper.updateByPrimaryKeySelective(cartNew);
+        }
+        return this.list(userId);
+    }
+
+    @Override
+    public List<CartVO> delete(Long userId, Long productId) {
+        Cart cart = cartMapper.selectCartByUserIdAndProductId(userId, productId);
+        if (cart == null) {
+            //这个商品之前不在购物车里，删除失败
+            throw new WarshipException(WarshipExceptionEnum.DELETE_FAILED);
+        } else {
+            //这个商品已经在购物车里了，则删除
+
+            cartMapper.deleteByPrimaryKey(cart.getId());
+        }
+        return this.list(userId);
+    }
+
     private void validProduct(Long productId, Integer count) {
         Product product = productMapper.selectByPrimaryKey(productId);
         //判断商品是否存在，商品是否上架

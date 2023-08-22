@@ -9,4 +9,7 @@ public interface CartService {
 
     List<CartVO> add(Long userId, Long productId, Integer count);
 
+    List<CartVO> update(Long userId, Long productId, Integer count);
+
+    List<CartVO> delete(Long userId, Long productId);
 }
