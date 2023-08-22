@@ -26,7 +26,7 @@ public interface CartMapper {
     Cart selectCartByUserIdAndProductId(@Param("userId") Long userId
             , @Param("productId")Long productId);
 
-    int selectOrNot(@Param("selected") Long selected
-            ,@Param("userId") Long userId
-            , @Param("productId")Long productId);
+    int selectOrNot(@Param("userId") Long userId
+            , @Param("productId")Long productId
+   , @Param("selected") Integer selected);
 }

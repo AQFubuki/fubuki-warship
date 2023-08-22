@@ -46,4 +46,19 @@ public class CartController {
         List<CartVO> cartVOList = cartService.delete(UserFilter.currentUser.getId(), productId);
         return ApiRestResponse.success(cartVOList);
     }
+    @PostMapping("/select")
+    @Operation(summary = "选中/不选中某个商品")
+    public ApiRestResponse select(@RequestParam Long productId,
+                                  @RequestParam Integer selected) {
+        //List<CartVO> cartVOList = cartService.select(UserFilter.currentUser.getId(), productId,selected);
+        List<CartVO> cartVOList = cartService.selectOrNot(UserFilter.currentUser.getId(), productId, selected);
+        return ApiRestResponse.success(cartVOList);
+    }
+    @PostMapping("/selectAll")
+    @Operation(summary = "全选中/不选中某个商品")
+    public ApiRestResponse selectAll(@RequestParam Integer selected) {
+        //List<CartVO> cartVOList = cartService.selectAll(UserFilter.currentUser.getId(),selected);
+        List<CartVO> cartVOList = cartService.selectAllOrNot(UserFilter.currentUser.getId(), selected);
+        return ApiRestResponse.success(cartVOList);
+    }
 }

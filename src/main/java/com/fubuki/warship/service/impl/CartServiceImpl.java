@@ -9,11 +9,9 @@ import com.fubuki.warship.model.pojo.Cart;
 import com.fubuki.warship.model.pojo.Product;
 import com.fubuki.warship.model.vo.CartVO;
 import com.fubuki.warship.service.CartService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -109,6 +107,63 @@ public class CartServiceImpl implements CartService {
 
             cartMapper.deleteByPrimaryKey(cart.getId());
         }
+        return this.list(userId);
+    }
+
+    @Override
+    public List<CartVO> select(Long userId, Long productId, Integer selected) {
+        validProduct(productId, 0);
+
+        Cart cart = cartMapper.selectCartByUserIdAndProductId(userId, productId);
+        if (cart == null) {
+            //这个商品之前不在购物车里，更新失败
+            throw new WarshipException(WarshipExceptionEnum.UPDATE_FAILED);
+        } else {
+            //这个商品已经在购物车里了，则更改选中状态
+            Cart cartNew = new Cart();
+            cartNew.setId(cart.getId());
+            cartNew.setProductId(cart.getProductId());
+            cartNew.setUserId(cart.getUserId());
+
+            cartNew.setSelected(selected);
+
+            cartMapper.updateByPrimaryKeySelective(cartNew);
+        }
+        return this.list(userId);
+    }
+
+    @Override
+    public List<CartVO> selectAll(Long userId, Integer selected) {
+        List<Cart> cartList = cartMapper.selectByUserId(userId);
+        for (Cart cart : cartList) {
+            this.select(userId,cart.getProductId(),selected);
+//            Cart cartNew = new Cart();
+//            cartNew.setId(cart.getId());
+//            cartNew.setProductId(cart.getProductId());
+//            cartNew.setUserId(cart.getUserId());
+//
+//            cartNew.setSelected(selected);
+//
+//            cartMapper.updateByPrimaryKeySelective(cartNew);
+        }
+        return this.list(userId);
+    }
+    @Override
+    public List<CartVO> selectOrNot(Long userId, Long productId, Integer selected) {
+        Cart cart = cartMapper.selectCartByUserIdAndProductId(userId, productId);
+        if (cart == null) {
+            //这个商品之前不在购物车里，无法选择/不选中
+            throw new WarshipException(WarshipExceptionEnum.UPDATE_FAILED);
+        } else {
+            //这个商品已经在购物车里了，则可以选中/不选中
+            cartMapper.selectOrNot(userId,productId,selected);
+        }
+        return this.list(userId);
+    }
+    @Override
+    public List<CartVO> selectAllOrNot(Long userId, Integer selected) {
+        //改变选中状态
+        cartMapper.selectOrNot(userId, null, selected);
         return this.list(userId);
     }
 

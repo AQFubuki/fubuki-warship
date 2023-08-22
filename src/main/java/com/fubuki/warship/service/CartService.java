@@ -12,4 +12,12 @@ public interface CartService {
     List<CartVO> update(Long userId, Long productId, Integer count);
 
     List<CartVO> delete(Long userId, Long productId);
+
+    List<CartVO> select(Long userId, Long productId, Integer selected);
+
+    List<CartVO> selectAll(Long userId, Integer selected);
+
+    List<CartVO> selectOrNot(Long userId, Long productId, Integer selected);
+
+    List<CartVO> selectAllOrNot(Long userId, Integer selected);
 }
