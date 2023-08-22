@@ -1,7 +1,11 @@
 package com.fubuki.warship.model.dao;
 
 import com.fubuki.warship.model.pojo.Cart;
+import com.fubuki.warship.model.vo.CartVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface CartMapper {
@@ -16,4 +20,13 @@ public interface CartMapper {
     int updateByPrimaryKeySelective(Cart row);
 
     int updateByPrimaryKey(Cart row);
+    List<Cart> selectByUserId(@Param("userId") Long userId);
+    List<CartVO> selectCartVOList(@Param("userId") Long userId);
+
+    Cart selectCartByUserIdAndProductId(@Param("userId") Long userId
+            , @Param("productId")Long productId);
+
+    int selectOrNot(@Param("selected") Long selected
+            ,@Param("userId") Long userId
+            , @Param("productId")Long productId);
 }

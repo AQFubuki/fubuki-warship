@@ -19,7 +19,8 @@
     from fubuki_warship_cart
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from fubuki_warship_cart
     where id = #{id,jdbcType=BIGINT}
   </delete>
@@ -113,5 +114,45 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByUserId" parameterType="java.lang.Long"
+           resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fubuki_warship_cart
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectCartByUserIdAndProductId" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"/>
+    from fubuki_warship_cart
+    where user_id = #{userId}
+    and product_id = #{productId}
+  </select>
+  <select id="selectCartVOList" resultType="com.fubuki.warship.model.vo.CartVO"
+  parameterType="java.lang.Long">
+    select
+      c.id as id,
+      p.id as productId,
+      c.user_id as userId,
+      c.quantity as quantity,
+      c.selected as selected,
+      p.price as price,
+      p.name as productName,
+      p.image as productImage
+    from fubuki_warship_cart c
+           left join fubuki_warship_product p on p.id = c.product_id
+    where c.user_id = #{userId}
+      and p.status = 1
+  </select>
+
+  <update id="selectOrNot" parameterType="map">
+    update fubuki_warship_cart
+    set selected = #{selected}
+    where user_id = #{userId}
+    <if test="productId != null">
+      and product_id = #{productId}
+    </if>
   </update>
 </mapper>
