@@ -13,11 +13,11 @@ public class OrderItem {
 
     private String productImg;
 
-    private Integer unitPrice;
+    private Long unitPrice;
 
     private Integer quantity;
 
-    private Integer totalPrice;
+    private Long totalPrice;
 
     private Date createTime;
 
@@ -63,11 +63,11 @@ public class OrderItem {
         this.productImg = productImg == null ? null : productImg.trim();
     }
 
-    public Integer getUnitPrice() {
+    public Long getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Integer unitPrice) {
+    public void setUnitPrice(Long unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -79,11 +79,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Integer getTotalPrice() {
+    public Long getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(Long totalPrice) {
         this.totalPrice = totalPrice;
     }
 

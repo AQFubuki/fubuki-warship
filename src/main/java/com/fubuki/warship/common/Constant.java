@@ -1,5 +1,7 @@
 package com.fubuki.warship.common;
 
+import com.fubuki.warship.exception.WarshipException;
+import com.fubuki.warship.exception.WarshipExceptionEnum;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.google.common.collect.Sets;
@@ -39,6 +41,47 @@ public class Constant {
         Integer NOT_SELECTED = 0;//购物车未选中
         Integer SELECTED = 1;//购物车已选中
     }
+    public enum OrderStatusEnum {
+        CANCELED(0, "用户已取消"),
+        NOT_PAID(10, "未付款"),
+        PAID(20, "已付款"),
+        DELIVERED(30, "已发货"),
+        FINISHED(40, "交易完成");
+
+        private String value;
+        private int code;
+
+        OrderStatusEnum(int code, String value) {
+            this.value = value;
+            this.code = code;
+        }
+
+        public static OrderStatusEnum codeOf(int code) {
+            for (OrderStatusEnum orderStatusEnum : values()) {
+                if (orderStatusEnum.getCode() == code) {
+                    return orderStatusEnum;
+                }
+            }
+            throw new WarshipException(WarshipExceptionEnum.NO_ENUM);
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+    }
+
 
 
 

@@ -7,9 +7,9 @@
     <result column="product_id" jdbcType="BIGINT" property="productId" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="product_img" jdbcType="VARCHAR" property="productImg" />
-    <result column="unit_price" jdbcType="INTEGER" property="unitPrice" />
+    <result column="unit_price" jdbcType="BIGINT" property="unitPrice" />
     <result column="quantity" jdbcType="INTEGER" property="quantity" />
-    <result column="total_price" jdbcType="INTEGER" property="totalPrice" />
+    <result column="total_price" jdbcType="BIGINT" property="totalPrice" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -33,8 +33,8 @@
       quantity, total_price, create_time, 
       update_time)
     values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}, 
-      #{productName,jdbcType=VARCHAR}, #{productImg,jdbcType=VARCHAR}, #{unitPrice,jdbcType=INTEGER}, 
-      #{quantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{productName,jdbcType=VARCHAR}, #{productImg,jdbcType=VARCHAR}, #{unitPrice,jdbcType=BIGINT},
+      #{quantity,jdbcType=INTEGER}, #{totalPrice,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.fubuki.warship.model.pojo.OrderItem">
@@ -88,13 +88,13 @@
         #{productImg,jdbcType=VARCHAR},
       </if>
       <if test="unitPrice != null">
-        #{unitPrice,jdbcType=INTEGER},
+        #{unitPrice,jdbcType=BIGINT},
       </if>
       <if test="quantity != null">
         #{quantity,jdbcType=INTEGER},
       </if>
       <if test="totalPrice != null">
-        #{totalPrice,jdbcType=INTEGER},
+        #{totalPrice,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -120,13 +120,13 @@
         product_img = #{productImg,jdbcType=VARCHAR},
       </if>
       <if test="unitPrice != null">
-        unit_price = #{unitPrice,jdbcType=INTEGER},
+        unit_price = #{unitPrice,jdbcType=BIGINT},
       </if>
       <if test="quantity != null">
         quantity = #{quantity,jdbcType=INTEGER},
       </if>
       <if test="totalPrice != null">
-        total_price = #{totalPrice,jdbcType=INTEGER},
+        total_price = #{totalPrice,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -143,9 +143,9 @@
       product_id = #{productId,jdbcType=BIGINT},
       product_name = #{productName,jdbcType=VARCHAR},
       product_img = #{productImg,jdbcType=VARCHAR},
-      unit_price = #{unitPrice,jdbcType=INTEGER},
+      unit_price = #{unitPrice,jdbcType=BIGINT},
       quantity = #{quantity,jdbcType=INTEGER},
-      total_price = #{totalPrice,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

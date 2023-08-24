@@ -5,7 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="total_price" jdbcType="INTEGER" property="totalPrice" />
+    <result column="total_price" jdbcType="BIGINT" property="totalPrice" />
     <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
     <result column="receiver_mobile" jdbcType="VARCHAR" property="receiverMobile" />
     <result column="receiver_address" jdbcType="VARCHAR" property="receiverAddress" />
@@ -41,7 +41,7 @@
       end_time, create_time, update_time
       )
     values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
-      #{totalPrice,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, 
+      #{totalPrice,jdbcType=BIGINT}, #{receiverName,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR},
       #{receiverAddress,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{postage,jdbcType=INTEGER}, 
       #{paymentType,jdbcType=INTEGER}, #{deliveryTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
@@ -107,7 +107,7 @@
         #{userId,jdbcType=BIGINT},
       </if>
       <if test="totalPrice != null">
-        #{totalPrice,jdbcType=INTEGER},
+        #{totalPrice,jdbcType=BIGINT},
       </if>
       <if test="receiverName != null">
         #{receiverName,jdbcType=VARCHAR},
@@ -154,7 +154,7 @@
         user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="totalPrice != null">
-        total_price = #{totalPrice,jdbcType=INTEGER},
+        total_price = #{totalPrice,jdbcType=BIGINT},
       </if>
       <if test="receiverName != null">
         receiver_name = #{receiverName,jdbcType=VARCHAR},
@@ -196,7 +196,7 @@
     update fubuki_warship_order
     set order_no = #{orderNo,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
-      total_price = #{totalPrice,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=BIGINT},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
       receiver_address = #{receiverAddress,jdbcType=VARCHAR},
