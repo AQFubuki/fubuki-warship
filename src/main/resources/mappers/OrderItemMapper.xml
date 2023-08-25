@@ -23,7 +23,8 @@
     from fubuki_warship_order_item
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from fubuki_warship_order_item
     where id = #{id,jdbcType=BIGINT}
   </delete>
@@ -150,4 +151,17 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectOrderItemVOList" resultType="com.fubuki.warship.model.vo.OrderItemVO"
+          parameterType="java.lang.String">
+    select
+      order_no as orderNo,
+      product_name as productName,
+      product_img as productImg,
+      unit_price as unitPrice,
+      quantity as quantity,
+      total_price as totalPrice
+    from fubuki_warship_order_item
+    where order_no = #{orderNo}
+  </select>
+
 </mapper>

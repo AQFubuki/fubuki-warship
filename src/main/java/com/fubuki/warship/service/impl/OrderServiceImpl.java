@@ -13,9 +13,14 @@ import com.fubuki.warship.model.pojo.OrderItem;
 import com.fubuki.warship.model.pojo.Product;
 import com.fubuki.warship.model.request.CreateOrderReq;
 import com.fubuki.warship.model.vo.CartVO;
+import com.fubuki.warship.model.vo.OrderItemVO;
+import com.fubuki.warship.model.vo.OrderVO;
 import com.fubuki.warship.service.CartService;
 import com.fubuki.warship.service.OrderService;
 import com.fubuki.warship.util.OrderCodeFactory;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,6 +110,48 @@ public class OrderServiceImpl implements OrderService {
         }
         //把结果返回
         return orderNo;
+    }
+
+    @Override
+    public OrderVO detail(String orderNo) {
+        //Long userId = UserFilter.currentUser.getId();
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        if (order == null) {
+            //订单号不存在
+            throw new WarshipException(WarshipExceptionEnum.NO_ORDER);
+        }
+        //订单存在，判断所属
+        Long userId = UserFilter.currentUser.getId();
+        if (!order.getUserId().equals(userId)) {
+            throw new WarshipException(WarshipExceptionEnum.NOT_YOUR_ORDER);
+        }
+        OrderVO orderVO=getOrderVO(order);
+        return orderVO;
+    }
+    public OrderVO getOrderVO(Order order){
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(order, orderVO);
+        List<OrderItemVO> orderItemVOList =
+                orderItemMapper.selectOrderItemVOList(order.getOrderNo());
+        orderVO.setOrderItemVOList(orderItemVOList);
+        orderVO.setOrderStatusName(
+                Constant.OrderStatusEnum.codeOf(order.getOrderStatus()).getValue()
+        );
+        return orderVO;
+    }
+
+    @Override
+    public PageInfo list(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Long userId = UserFilter.currentUser.getId();
+        List<Order> orderList = orderMapper.selectByUserId(userId);
+        List<OrderVO>orderVOList=new LinkedList<>();
+        for (Order order : orderList) {
+            OrderVO detail = getOrderVO(order);
+            orderVOList.add(detail);
+        }
+        PageInfo pageInfo = new PageInfo(orderVOList);
+        return pageInfo;
     }
 
     private Long totalPrice(List<OrderItem> orderItemList) {
