@@ -223,6 +223,14 @@
       <include refid="Base_Column_List" />
       from fubuki_warship_order
       where user_id = #{userId,jdbcType=BIGINT}
+      order by create_time desc
     </select>
+  <select id="selectAllForAdmin"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fubuki_warship_order
+    order by create_time desc
+  </select>
 
 </mapper>

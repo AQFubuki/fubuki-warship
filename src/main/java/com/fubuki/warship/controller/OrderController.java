@@ -42,4 +42,25 @@ public class OrderController {
         PageInfo list = orderService.list(pageNum,pageSize);
         return ApiRestResponse.success(list);
     }
+    @PostMapping("/order/cancel")
+    @Operation(summary = "取消订单")
+    public ApiRestResponse cancel(@RequestParam String orderNo) {
+        orderService.cancel(orderNo);
+        return ApiRestResponse.success();
+    }
+    /**
+     * 生成支付二维码
+     */
+    @GetMapping("/order/qrcode")
+    @Operation(summary ="生成支付二维码")
+    public ApiRestResponse qrcode(@RequestParam String orderNo) {
+        String pngAddress = orderService.qrcode(orderNo);
+        return ApiRestResponse.success(pngAddress);
+    }
+    @GetMapping("pay")
+    @Operation(summary ="支付接口")
+    public ApiRestResponse pay(@RequestParam String orderNo) {
+        orderService.pay(orderNo);
+        return ApiRestResponse.success();
+    }
 }

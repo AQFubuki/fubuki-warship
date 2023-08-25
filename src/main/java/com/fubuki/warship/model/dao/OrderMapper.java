@@ -24,4 +24,6 @@ public interface OrderMapper {
     Order selectByOrderNo(@Param("orderNo")String orderNo);
 
     List<Order> selectByUserId(@Param("userId")Long userId);
+
+    List<Order> selectAllForAdmin();
 }

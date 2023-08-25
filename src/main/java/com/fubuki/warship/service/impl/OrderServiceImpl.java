@@ -18,15 +18,23 @@ import com.fubuki.warship.model.vo.OrderVO;
 import com.fubuki.warship.service.CartService;
 import com.fubuki.warship.service.OrderService;
 import com.fubuki.warship.util.OrderCodeFactory;
+import com.fubuki.warship.util.QRCodeGenerator;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.zxing.WriterException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,6 +45,8 @@ public class OrderServiceImpl implements OrderService {
     private final ProductMapper productMapper;
     private final CartMapper cartMapper;
     private final CartService cartService;
+    @Value("${file.upload.ip}")
+    String ip;
 
     @Autowired
     public OrderServiceImpl(OrderMapper orderMapper, OrderItemMapper orderItemMapper, ProductMapper productMapper, CartMapper cartMapper, CartService cartService) {
@@ -152,6 +162,108 @@ public class OrderServiceImpl implements OrderService {
         }
         PageInfo pageInfo = new PageInfo(orderVOList);
         return pageInfo;
+    }
+
+    @Override
+    public void cancel(String orderNo) {
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        if (order == null) {
+            //订单号不存在
+            throw new WarshipException(WarshipExceptionEnum.NO_ORDER);
+        }
+        //订单存在，判断所属
+        Long userId = UserFilter.currentUser.getId();
+        if (!order.getUserId().equals(userId)) {
+            throw new WarshipException(WarshipExceptionEnum.NOT_YOUR_ORDER);
+        }
+        //只有未付款状态能取消，付款后想撤销需要别的接口开发
+        if(!order.getOrderStatus()
+                .equals(Constant.OrderStatusEnum.NOT_PAID.getCode())){
+            throw new WarshipException(WarshipExceptionEnum.WRONG_ORDER_STATUS);
+        }
+        Order newOrder=new Order();
+        newOrder.setId(order.getId());
+        newOrder.setEndTime(new Date());
+        newOrder.setOrderStatus(Constant.OrderStatusEnum.CANCELED.getCode());
+        orderMapper.updateByPrimaryKeySelective(newOrder);
+    }
+
+    @Override
+    public String qrcode(String orderNo) {
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder
+                .getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+
+        String address = ip + ":" + request.getLocalPort();
+        String payUrl = "http://" + address + "/pay?orderNo=" + orderNo;
+        try {
+            QRCodeGenerator
+                    .generateQRCodeImage(payUrl, 350, 350,
+                            Constant.FILE_UPLOAD_DIR + orderNo + ".png");
+        } catch (WriterException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //https无法打开localhost
+        String pngAddress =
+                "http://" +
+                        address + "/images/" + orderNo + ".png";
+        return pngAddress;
+    }
+
+    @Override
+    public PageInfo listForAdmin(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Order> orderList = orderMapper.selectAllForAdmin();
+        List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
+        PageInfo pageInfo = new PageInfo<>(orderList);
+        pageInfo.setList(orderVOList);
+        return pageInfo;
+    }
+
+    private List<OrderVO> orderListToOrderVOList(List<Order> orderList) {
+        List<OrderVO>orderVOList=new LinkedList<>();
+        for (Order order : orderList) {
+            OrderVO orderVO=getOrderVO(order);
+            orderVOList.add(orderVO);
+        }
+        return orderVOList;
+    }
+
+    @Override
+    public void deliver(String orderNo) {
+
+    }
+
+    @Override
+    public void finish(String orderNo) {
+
+    }
+
+    @Override
+    public void pay(String orderNo) {
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        if (order == null) {
+            //订单号不存在
+            throw new WarshipException(WarshipExceptionEnum.NO_ORDER);
+        }
+        //订单存在，判断所属
+        Long userId = UserFilter.currentUser.getId();
+        if (!order.getUserId().equals(userId)) {
+            throw new WarshipException(WarshipExceptionEnum.NOT_YOUR_ORDER);
+        }
+        //只有未付款状态能付款
+        if(!order.getOrderStatus()
+                .equals(Constant.OrderStatusEnum.NOT_PAID.getCode())){
+            throw new WarshipException(WarshipExceptionEnum.WRONG_ORDER_STATUS);
+        }
+        Order newOrder=new Order();
+        newOrder.setId(order.getId());
+        newOrder.setPayTime(new Date());
+        newOrder.setOrderStatus(Constant.OrderStatusEnum.PAID.getCode());
+        orderMapper.updateByPrimaryKeySelective(newOrder);
     }
 
     private Long totalPrice(List<OrderItem> orderItemList) {

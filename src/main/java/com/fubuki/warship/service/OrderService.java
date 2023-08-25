@@ -12,4 +12,16 @@ public interface OrderService {
     OrderVO detail(String orderNo);
 
     PageInfo list(Integer pageNum, Integer pageSize);
+
+    void cancel(String orderNo);
+
+    String qrcode(String orderNo);
+
+    PageInfo listForAdmin(Integer pageNum, Integer pageSize);
+
+    void deliver(String orderNo);
+
+    void finish(String orderNo);
+
+    void pay(String orderNo);
 }
